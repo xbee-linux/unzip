@@ -1,0 +1,39 @@
+schema-version: 1.0
+
+type: builder
+
+description: |
+  Le paquet UnZip contient des outils d'extraction ZIP. Ils sont utiles pour extraire des fichiers à partir d'archives ZIP. Les archives ZIP sont créées avec les outils PKZIP ou Info-ZIP, surtout dans un environnement DOS.
+
+  Programmes installés: funzip, unzip, unzipfsx, zipgrep et zipinfo
+  Bibliothèques installées: Aucune
+  Répertoires installés: Aucune
+  Descriptions courtes
+    funzip: permet à la sortie des commandes unzip d'être redirigées
+    unzip: liste, teste ou extrait des fichiers d'une archive ZIP
+    unzipfsx: est un stub auto-extrait qui peut être ajouté au début de l'archive ZIP. Des fichiers dans ce format permettent au destinataire de décompresser l'archive sans installer UnZip
+    zipgrep: cherche dans des fichiers d'une archiveZIP des lignes correspondant à un modèle
+    zipinfo: produit des informations techniques sur des fichiers d'une archive ZIP, dont les droits d'accès au fichier, le statut du chiffrement, le type de compression, etc
+
+in:
+  version: "6.0"
+
+provision:
+  - url:
+      from: https://downloads.sourceforge.net/infozip/unzip{{ majorVersion .pack.version }}{{ minorVersion .pack.version }}.tar.gz
+      todir: "{% xbeeSrc %}"
+      wget: true
+  - url:
+      from: https://www.linuxfromscratch.org/patches/blfs/svn/unzip-{% version %}-consolidated_fixes-1.patch
+      todir: "{% xbeeSrc %}"
+      unpack: false
+
+build:
+  - shell:
+      cmds:
+        - patch -Np1 -i ../unzip-{% version %}-consolidated_fixes-1.patch
+        - make -f unix/Makefile generic
+        - make prefix={% xbeeOut %}/usr MANDIR={% xbeeOut %}/usr/share/man/man1 -f unix/Makefile install
+#        - install-catalog --add /etc/sgml/sgml-ent.cat {% xbeeOut %}/usr/share/sgml/sgml-iso-entities-8879.1986/catalog
+#        - install-catalog --add /etc/sgml/sgml-docbook.cat /etc/sgml/sgml-ent.cat
+      directory: "{% xbeeSrc %}/unzip{{ majorVersion .pack.version }}{{ minorVersion .pack.version }}"
