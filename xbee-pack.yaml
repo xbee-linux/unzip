@@ -15,25 +15,25 @@ description: |
     zipgrep: cherche dans des fichiers d'une archiveZIP des lignes correspondant à un modèle
     zipinfo: produit des informations techniques sur des fichiers d'une archive ZIP, dont les droits d'accès au fichier, le statut du chiffrement, le type de compression, etc
 
-in:
+var:
   version: "6.0"
 
 provision:
   - url:
-      from: https://downloads.sourceforge.net/infozip/unzip{{ majorVersion .pack.version }}{{ minorVersion .pack.version }}.tar.gz
-      todir: "{% xbeeSrc %}"
+      from: https://downloads.sourceforge.net/infozip/unzip{{ majorVersion .version }}{{ minorVersion .version }}.tar.gz
+      todir: "{{ .xbee.src }}"
       wget: true
   - url:
-      from: https://www.linuxfromscratch.org/patches/blfs/svn/unzip-{% version %}-consolidated_fixes-1.patch
-      todir: "{% xbeeSrc %}"
+      from: https://www.linuxfromscratch.org/patches/blfs/svn/unzip-{{ .version }}-consolidated_fixes-1.patch
+      todir: "{{ .xbee.src }}"
       unpack: false
 
 build:
   - shell:
       cmds:
-        - patch -Np1 -i ../unzip-{% version %}-consolidated_fixes-1.patch
+        - patch -Np1 -i ../unzip-{{ .version }}-consolidated_fixes-1.patch
         - make -f unix/Makefile generic
-        - make prefix={% xbeeOut %}/usr MANDIR={% xbeeOut %}/usr/share/man/man1 -f unix/Makefile install
-#        - install-catalog --add /etc/sgml/sgml-ent.cat {% xbeeOut %}/usr/share/sgml/sgml-iso-entities-8879.1986/catalog
+        - make prefix={{ .xbee.out }}/usr MANDIR={{ .xbee.out }}/usr/share/man/man1 -f unix/Makefile install
+#        - install-catalog --add /etc/sgml/sgml-ent.cat {{ .xbee.out }}/usr/share/sgml/sgml-iso-entities-8879.1986/catalog
 #        - install-catalog --add /etc/sgml/sgml-docbook.cat /etc/sgml/sgml-ent.cat
-      directory: "{% xbeeSrc %}/unzip{{ majorVersion .pack.version }}{{ minorVersion .pack.version }}"
+      directory: "{{ .xbee.src }}/unzip{{ majorVersion .version }}{{ minorVersion .version }}"
