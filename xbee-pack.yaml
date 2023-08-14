@@ -21,11 +21,9 @@ var:
 provision:
   - url:
       from: https://downloads.sourceforge.net/infozip/unzip{{ majorVersion .version }}{{ minorVersion .version }}.tar.gz
-      todir: "{{ .xbee.src }}"
       wget: true
   - url:
       from: https://www.linuxfromscratch.org/patches/blfs/svn/unzip-{{ .version }}-consolidated_fixes-1.patch
-      todir: "{{ .xbee.src }}"
       unpack: false
 
 build:
