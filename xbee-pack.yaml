@@ -16,7 +16,8 @@ description: |
     zipinfo: produit des informations techniques sur des fichiers d'une archive ZIP, dont les droits d'accès au fichier, le statut du chiffrement, le type de compression, etc
 
 var:
-  version: "6.0"
+  xbee:
+    version: "6.0"
 
 provision:
   - url:
