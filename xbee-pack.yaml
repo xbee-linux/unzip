@@ -21,18 +21,18 @@ var:
 
 provision:
   - url:
-      from: https://downloads.sourceforge.net/infozip/unzip{{ majorVersion .version }}{{ minorVersion .version }}.tar.gz
+      from: https://downloads.sourceforge.net/infozip/unzip{{ majorVersion .xbee.version }}{{ minorVersion .xbee.version }}.tar.gz
       wget: true
   - url:
-      from: https://www.linuxfromscratch.org/patches/blfs/svn/unzip-{{ .version }}-consolidated_fixes-1.patch
+      from: https://www.linuxfromscratch.org/patches/blfs/svn/unzip-{{ .xbee.version }}-consolidated_fixes-1.patch
       unpack: false
 
 build:
   - shell:
       cmds:
-        - patch -Np1 -i ../unzip-{{ .version }}-consolidated_fixes-1.patch
+        - patch -Np1 -i ../unzip-{{ .xbee.version }}-consolidated_fixes-1.patch
         - make -f unix/Makefile generic
         - make prefix={{ .xbee.out }}/usr MANDIR={{ .xbee.out }}/usr/share/man/man1 -f unix/Makefile install
 #        - install-catalog --add /etc/sgml/sgml-ent.cat {{ .xbee.out }}/usr/share/sgml/sgml-iso-entities-8879.1986/catalog
 #        - install-catalog --add /etc/sgml/sgml-docbook.cat /etc/sgml/sgml-ent.cat
-      directory: "{{ .xbee.src }}/unzip{{ majorVersion .version }}{{ minorVersion .version }}"
+      directory: "{{ .xbee.src }}/unzip{{ majorVersion .xbee.version }}{{ minorVersion .xbee.version }}"
