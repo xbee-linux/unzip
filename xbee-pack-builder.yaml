@@ -1,7 +1,5 @@
 schema-version: 1.0
 
-type: builder
-
 description: |
   Le paquet UnZip contient des outils d'extraction ZIP. Ils sont utiles pour extraire des fichiers à partir d'archives ZIP. Les archives ZIP sont créées avec les outils PKZIP ou Info-ZIP, surtout dans un environnement DOS.
 
