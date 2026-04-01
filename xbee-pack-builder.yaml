@@ -27,7 +27,7 @@ provision:
 
 build:
   - shell:
-      cmds:
+      cmd:
         - patch -Np1 -i ../unzip-{{ .xbee.version }}-consolidated_fixes-1.patch
         - make -f unix/Makefile generic
         - make prefix={{ .xbee.out }}/usr MANDIR={{ .xbee.out }}/usr/share/man/man1 -f unix/Makefile install
